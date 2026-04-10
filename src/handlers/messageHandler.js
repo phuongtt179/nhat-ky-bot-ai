@@ -109,36 +109,39 @@ async function handleNormalMessage(bot, msg, text, session) {
     return;
   }
 
-  const { type, items, needs_confirmation, response_to_user } = classified;
-
   // Điều hướng theo type
-  if (type === 'attendance') {
+  if (classified.type === 'attendance') {
     return await handleAttendance(bot, msg, text, classified);
   }
 
-  if (type === 'tuition') {
+  if (classified.type === 'tuition') {
     return await handleTuition(bot, msg, text);
   }
 
-  if (type === 'setup') {
+  if (classified.type === 'setup') {
     return await handleSetup(bot, msg, text);
   }
 
-  if (type === 'question' || type === 'unknown') {
+  if (classified.type === 'question' || classified.type === 'unknown') {
     // Nếu không có dấu "?" và không có từ hỏi → đây là ghi chép, lưu làm activity
     const questionWords = /\?|bao nhiêu|mấy buổi|khi nào|hôm nào|ngày nào|tìm|xem lại|kiểm tra|có không|được không|nhắc|liệt kê/i;
     if (!text.includes('?') && !questionWords.test(text)) {
       classified.type = 'activity';
-      classified.items = classified.items?.length ? classified.items : [{
-        type: 'activity',
-        title: text.substring(0, 60),
-        content: text,
-        date: null,
-      }];
+      if (!classified.items?.length) {
+        classified.items = [{
+          type: 'activity',
+          title: text.substring(0, 60),
+          content: text,
+          date: null,
+        }];
+      }
     } else {
       return await handleNaturalSearch(bot, chatId, text, classified);
     }
   }
+
+  const { needs_confirmation, response_to_user } = classified;
+  const items = classified.items;
 
   if (!items || items.length === 0) {
     const reply = response_to_user || 'Mình đã ghi nhận\\!';
