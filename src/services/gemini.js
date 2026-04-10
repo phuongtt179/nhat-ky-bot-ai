@@ -42,8 +42,14 @@ PHÂN LOẠI TIN NHẮN:
 - attendance: điểm danh/vắng/có mặt/nghỉ
 - tuition: thu hp/học phí/đóng tiền
 - setup: setup lớp/thêm lớp/tạo lớp/thêm học sinh/xóa học sinh/cập nhật lớp
-- question: câu hỏi tra cứu thông tin đã lưu ("hôm nay làm gì?", "tháng 3 chi bao nhiêu?")
+- question: CHỈ dùng khi tin nhắn là câu HỎI rõ ràng về dữ liệu đã lưu (có dấu "?", hoặc dùng từ "bao nhiêu/mấy/khi nào/hôm nào/tìm/xem/kiểm tra")
 - unknown: KHÔNG DÙNG nếu tin nhắn có thể là ghi chép hoạt động
+
+NGUYÊN TẮC QUAN TRỌNG:
+- Nếu user MÔ TẢ việc đã làm/đang làm → đây là GHI CHÉP (teaching/activity/personal...), KHÔNG phải question
+- Nếu user HỎI về dữ liệu cũ → mới là question
+- Ví dụ GHI CHÉP: "hôm nay dạy lớp 4A", "tổ chức thi VIOEDU", "họp chuyên môn sáng nay", "mệt quá"
+- Ví dụ CÂU HỎI: "hôm nay dạy lớp nào?", "tháng 3 chi bao nhiêu?", "An vắng mấy buổi?"
 
 NHẬN DẠNG ĐIỂM DANH:
 - Pattern: "[tên nhóm/lớp] vắng [tên1], [tên2]"
