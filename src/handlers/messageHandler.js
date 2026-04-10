@@ -63,6 +63,11 @@ async function handleMessage(bot, msg) {
         return await handleWeeklyReviewResponse(bot, msg, session, text);
     }
 
+    // Kiểm tra lệnh setup lớp học trước khi gọi Gemini
+    if (/^(setup|thêm lớp|tạo lớp|thêm học sinh|xóa học sinh|cập nhật lớp|cập nhật hp)/i.test(text)) {
+      return await handleSetup(bot, msg, text);
+    }
+
     // Kiểm tra lệnh sửa/xóa sau list
     if (isEditCommand(text)) {
       const index = getCommandIndex(text);

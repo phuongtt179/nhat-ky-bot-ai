@@ -102,7 +102,7 @@ TIN NHẮN MỚI CỦA USER: "${msg}"
 
 Phân tích tin nhắn và trả về JSON:
 {
-  "type": "expense|income|teaching|personal|activity|schedule|task|attendance|tuition|mixed|question|unknown",
+  "type": "expense|income|teaching|personal|activity|schedule|task|attendance|tuition|setup|mixed|question|unknown",
   "items": [
     {
       "type": "...",
