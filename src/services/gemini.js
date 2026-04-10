@@ -140,7 +140,7 @@ Phân tích tin nhắn và trả về JSON:
     const json = extractJSON(text);
     return json;
   } catch (err) {
-    console.error('Gemini classifyMessage error:', err.message);
+    console.error('Gemini classifyMessage error:', err.message, '| status:', err.status, '| code:', err.code);
     return {
       type: 'unknown',
       items: [],

@@ -22,6 +22,17 @@ async function main() {
     process.exit(1);
   }
 
+  // Test Gemini API
+  try {
+    const { GoogleGenerativeAI } = require('@google/generative-ai');
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+    await model.generateContent('test');
+    console.log('✅ Gemini API hoạt động');
+  } catch (err) {
+    console.error('❌ Gemini API lỗi:', err.message, '| status:', err.status);
+  }
+
   if (WEBHOOK_URL) {
     // === PRODUCTION MODE: Webhook ===
     const bot = createBot('webhook');
