@@ -125,8 +125,19 @@ async function handleNormalMessage(bot, msg, text, session) {
   }
 
   if (type === 'question' || type === 'unknown') {
-    // Câu hỏi hoặc không nhận ra → tìm kiếm tự nhiên
-    return await handleNaturalSearch(bot, chatId, text, classified);
+    // Nếu không có dấu "?" và không có từ hỏi → đây là ghi chép, lưu làm activity
+    const questionWords = /\?|bao nhiêu|mấy buổi|khi nào|hôm nào|ngày nào|tìm|xem lại|kiểm tra|có không|được không|nhắc|liệt kê/i;
+    if (!text.includes('?') && !questionWords.test(text)) {
+      classified.type = 'activity';
+      classified.items = classified.items?.length ? classified.items : [{
+        type: 'activity',
+        title: text.substring(0, 60),
+        content: text,
+        date: null,
+      }];
+    } else {
+      return await handleNaturalSearch(bot, chatId, text, classified);
+    }
   }
 
   if (!items || items.length === 0) {
