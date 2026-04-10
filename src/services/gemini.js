@@ -41,6 +41,7 @@ PHÂN LOẠI TIN NHẮN:
 - personal: cảm xúc/suy nghĩ/nhật ký/tâm sự/chia sẻ cá nhân
 - attendance: điểm danh/vắng/có mặt/nghỉ
 - tuition: thu hp/học phí/đóng tiền
+- setup: setup lớp/thêm lớp/tạo lớp/thêm học sinh/xóa học sinh/cập nhật lớp
 
 NHẬN DẠNG ĐIỂM DANH:
 - Pattern: "[tên nhóm/lớp] vắng [tên1], [tên2]"

@@ -17,6 +17,7 @@ const {
 } = require('../utils/stateManager');
 const { handleAttendance, handleAttendanceClarify, saveAttendanceRecord } = require('./attendanceHandler');
 const { handleTuition, saveTuitionRecords } = require('./tuitionHandler');
+const { handleSetup } = require('./setupHandler');
 const { handleEditRequest, handleDeleteRequest, handleEditSelect, handleNewValue } = require('./editHandler');
 
 /**
@@ -112,6 +113,10 @@ async function handleNormalMessage(bot, msg, text, session) {
 
   if (type === 'tuition') {
     return await handleTuition(bot, msg, text);
+  }
+
+  if (type === 'setup') {
+    return await handleSetup(bot, msg, text);
   }
 
   if (type === 'question' || type === 'unknown') {
