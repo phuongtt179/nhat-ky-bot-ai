@@ -267,30 +267,33 @@ Trả về JSON:
 async function parseClassSetup(msg) {
   const currentDate = dayjs().format('YYYY-MM-DD');
 
-  const prompt = `Phân tích tin nhắn setup lớp học sau:
-"${msg}"
+  const prompt = `Phân tích tin nhắn setup lớp học sau và trả về JSON.
 
-Ngày hiện tại: ${currentDate}
+Tin nhắn: "${msg}"
 
-Trả về JSON:
+Quy tắc:
+- action: "create" nếu tạo lớp mới, "update" nếu cập nhật, "add_student" nếu thêm HS, "remove_student" nếu xóa HS
+- class_id: viết thường, không dấu, dùng dấu gạch dưới (ví dụ: "tin35", "tin_3_5", "python46")
+- sessions: CHỈ các buổi lớp HỌC, map từ thứ: thứ 2→"thu_2", thứ 3→"thu_3", thứ 4→"thu_4", thứ 5→"thu_5", thứ 6→"thu_6", thứ 7→"thu_7", chủ nhật→"chu_nhat"
+- students: mảng học sinh với fee là học phí/tháng (số nguyên)
+- Nếu tất cả HS cùng lịch → sessions của từng HS = sessions của lớp
+
+Ví dụ input: "setup lớp tin35\nlịch thứ 3 + thứ 5\nhọc phí: 450000\nhọc sinh: An, Bình"
+Ví dụ output:
 {
-  "action": "create|update|add_student|remove_student|update_student",
-  "class_id": "id ngắn không dấu, ví dụ: tin_3_5",
-  "display_name": "Nhóm Tin 3-5",
+  "action": "create",
+  "class_id": "tin35",
+  "display_name": "Tin35",
   "subject": "Tin học",
-  "sessions": ["thu_2", "thu_3", "thu_4", "thu_5", "thu_6", "thu_7", "chu_nhat"],
+  "sessions": ["thu_3", "thu_5"],
   "students": [
-    {
-      "id": "s001",
-      "name": "Nguyễn Văn An",
-      "main_class": "4A1 hoặc null",
-      "sessions": ["thu_3", "thu_6"],
-      "fee": 450000,
-      "note": ""
-    }
+    {"id": "s001", "name": "An", "main_class": null, "sessions": ["thu_3", "thu_5"], "fee": 450000, "note": ""},
+    {"id": "s002", "name": "Bình", "main_class": null, "sessions": ["thu_3", "thu_5"], "fee": 450000, "note": ""}
   ],
-  "response_to_user": "xác nhận thân thiện"
-}`;
+  "response_to_user": "Đã tạo lớp Tin35 với 2 học sinh!"
+}
+
+Trả về JSON hợp lệ, không thêm text ngoài JSON.`;
 
   try {
     const result = await model.generateContent(prompt);
