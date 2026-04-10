@@ -34,14 +34,16 @@ NGUYÊN TẮC GIAO TIẾP:
 PHÂN LOẠI TIN NHẮN:
 - expense: có số tiền + mua/chi/trả/mất/tốn
 - income: lương/thu/nhận/được trả/thưởng
-- teaching: dạy/lớp/tiết/HS/giáo án/soạn bài
+- teaching: dạy/lớp/tiết/HS/giáo án/soạn bài/tổ chức thi/chấm bài/họp chuyên môn
 - schedule: lịch/họp/thi/sự kiện tương lai + ngày cụ thể
 - task: việc cần làm/nhớ làm/chưa xong
-- activity: hoạt động đã xảy ra (không phải chi tiêu)
+- activity: hoạt động đã xảy ra hôm nay hoặc quá khứ (không phải chi tiêu, không có ngày cụ thể tương lai)
 - personal: cảm xúc/suy nghĩ/nhật ký/tâm sự/chia sẻ cá nhân
 - attendance: điểm danh/vắng/có mặt/nghỉ
 - tuition: thu hp/học phí/đóng tiền
 - setup: setup lớp/thêm lớp/tạo lớp/thêm học sinh/xóa học sinh/cập nhật lớp
+- question: câu hỏi tra cứu thông tin đã lưu ("hôm nay làm gì?", "tháng 3 chi bao nhiêu?")
+- unknown: KHÔNG DÙNG nếu tin nhắn có thể là ghi chép hoạt động
 
 NHẬN DẠNG ĐIỂM DANH:
 - Pattern: "[tên nhóm/lớp] vắng [tên1], [tên2]"
@@ -334,7 +336,7 @@ Trả về JSON:
 
   try {
     const result = await model.generateContent(prompt);
-    return extractJSON(result.response.text());
+    return extractJSON(result.response.text()) || { collections: ['entries'], intent: 'find_specific', keywords: [query] };
   } catch (err) {
     console.error('Gemini analyzeQuery error:', err.message);
     return { collections: ['entries'], intent: 'find_specific', keywords: [query] };
