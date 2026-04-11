@@ -51,6 +51,11 @@ NGUYÊN TẮC QUAN TRỌNG:
 - Ví dụ GHI CHÉP: "hôm nay dạy lớp 4A", "tổ chức thi VIOEDU", "họp chuyên môn sáng nay", "mệt quá"
 - Ví dụ CÂU HỎI: "hôm nay dạy lớp nào?", "tháng 3 chi bao nhiêu?", "An vắng mấy buổi?"
 
+QUAN TRỌNG VỀ ITEMS:
+- Với type personal/activity/teaching/schedule/task/expense/income: LUÔN tạo ít nhất 1 item trong mảng items
+- Item phải có title ngắn gọn và content đầy đủ
+- KHÔNG để items rỗng [] với các type trên
+
 NHẬN DẠNG ĐIỂM DANH:
 - Pattern: "[tên nhóm/lớp] vắng [tên1], [tên2]"
 - Pattern: "[tên nhóm/lớp] đủ hết"
