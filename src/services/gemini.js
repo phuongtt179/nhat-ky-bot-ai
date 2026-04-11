@@ -2,7 +2,7 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const dayjs = require('dayjs');
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-001' });
+const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
 // ==================== SYSTEM PROMPT ====================
 
@@ -135,7 +135,10 @@ Phân tích tin nhắn và trả về JSON:
 }`;
 
   try {
-    const result = await model.generateContent(prompt);
+    const result = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      generationConfig: { responseMimeType: 'application/json' },
+    });
     const text = result.response.text().trim();
     console.log('Gemini raw response:', text.substring(0, 300));
     const json = extractJSON(text);
