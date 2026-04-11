@@ -3,12 +3,7 @@ const dayjs = require('dayjs');
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel(
-  {
-    model: 'gemini-2.5-flash',
-    generationConfig: {
-      thinkingConfig: { thinkingBudget: 0 }
-    }
-  },
+  { model: 'gemini-2.5-flash' },
   { apiVersion: 'v1' }
 );
 
@@ -512,6 +507,10 @@ Dùng emoji phù hợp. Chỉ trả về text.`;
  * Trích xuất JSON từ response text của Gemini
  */
 function extractJSON(text) {
+  // Loại bỏ phần thinking của gemini-2.5 trước khi parse
+  text = text.replace(/<thinking>[\s\S]*?<\/thinking>/gi, '').trim();
+  text = text.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+
   try {
     // Thử parse trực tiếp
     return JSON.parse(text);
