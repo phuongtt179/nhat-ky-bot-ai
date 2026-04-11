@@ -114,6 +114,7 @@ async function handleNormalMessage(bot, msg, text, session) {
 
   // Gọi Gemini phân loại
   const classified = await gemini.classifyMessage(text, allClasses, chatHistory);
+  console.log('classified result:', JSON.stringify(classified)?.substring(0, 200));
 
   if (!classified) {
     await bot.sendMessage(chatId, 'Mình chưa hiểu\\. Bạn nói lại được không\\? 😅', { parse_mode: 'MarkdownV2' });
