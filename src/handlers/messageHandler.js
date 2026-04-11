@@ -17,7 +17,7 @@ const {
 } = require('../utils/stateManager');
 const { handleAttendance, handleAttendanceClarify, saveAttendanceRecord } = require('./attendanceHandler');
 const { handleTuition, saveTuitionRecords } = require('./tuitionHandler');
-const { handleSetup } = require('./setupHandler');
+const { handleSetup, handleListClasses, handleViewClass } = require('./setupHandler');
 const { handleEditRequest, handleDeleteRequest, handleEditSelect, handleNewValue } = require('./editHandler');
 
 /**
@@ -66,6 +66,17 @@ async function handleMessage(bot, msg) {
     // Kiểm tra lệnh setup lớp học trước khi gọi Gemini
     if (/^(setup|thêm lớp|tạo lớp|thêm học sinh|xóa học sinh|cập nhật lớp|cập nhật hp)/i.test(text)) {
       return await handleSetup(bot, msg, text);
+    }
+
+    // Kiểm tra câu hỏi về danh sách lớp/học sinh
+    if (/danh sách|học sinh|lớp (tin|python|[0-9])/i.test(text) && /xem|liệt kê|cho.*biết|có.*em|gồm|là ai|tên/i.test(text)) {
+      const allClasses = await firebase.getAllClasses();
+      const matched = allClasses.find(c =>
+        text.toLowerCase().includes(c.id.toLowerCase()) ||
+        text.toLowerCase().includes(c.display_name.toLowerCase())
+      );
+      if (matched) return await handleViewClass(bot, msg.chat.id, matched.id);
+      return await handleListClasses(bot, msg.chat.id);
     }
 
     // Kiểm tra lệnh sửa/xóa sau list
