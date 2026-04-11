@@ -26,7 +26,7 @@ async function main() {
   try {
     const { GoogleGenerativeAI } = require('@google/generative-ai');
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' }, { apiVersion: 'v1' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
     await model.generateContent('test');
     console.log('✅ Gemini API hoạt động');
   } catch (err) {
@@ -39,6 +39,7 @@ async function main() {
 
     // Endpoint nhận updates từ Telegram
     app.post(`/webhook/${BOT_TOKEN}`, (req, res) => {
+      console.log('📨 Webhook nhận tin:', JSON.stringify(req.body).substring(0, 200));
       processUpdate(req.body);
       res.sendStatus(200);
     });
