@@ -140,12 +140,9 @@ Phân tích tin nhắn và trả về JSON:
 }`;
 
   try {
-    const result = await model.generateContent({
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: { responseMimeType: 'application/json' },
-    });
+    const result = await model.generateContent(prompt);
     const text = result.response.text().trim();
-    console.log('Gemini raw response:', text.substring(0, 300));
+    console.log('Gemini raw response:', text.substring(0, 500));
     const json = extractJSON(text);
     console.log('Gemini parsed type:', json?.type);
     return json;
