@@ -140,7 +140,9 @@ Phân tích tin nhắn và trả về JSON:
   try {
     const result = await model.generateContent(prompt);
     const text = result.response.text().trim();
+    console.log('Gemini raw response:', text.substring(0, 300));
     const json = extractJSON(text);
+    console.log('Gemini parsed type:', json?.type);
     return json;
   } catch (err) {
     console.error('Gemini classifyMessage error:', err.message, '| status:', err.status, '| code:', err.code);
